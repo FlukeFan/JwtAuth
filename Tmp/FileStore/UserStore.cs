@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AuthEx.Shared.Security;
 using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 
@@ -40,9 +41,11 @@ namespace Tmp.FileStore
             return user;
         }
 
-        public Task<AuthExUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        public async Task<AuthExUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            AuthExUser user = null;
+            await UsingUsers(users => user = users.SingleOrDefault(u => u.Id == userId));
+            return user;
         }
 
         public async Task<AuthExUser> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)

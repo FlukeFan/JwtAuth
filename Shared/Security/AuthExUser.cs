@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace Tmp.FileStore
+namespace AuthEx.Shared.Security
 {
     public class AuthExUser : IdentityUser
     {
