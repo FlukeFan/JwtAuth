@@ -8,7 +8,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using ZipDeploy;
 
-namespace MfePoc.Home
+namespace AuthEx.Home
 {
     public class Startup
     {

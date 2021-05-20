@@ -1,4 +1,4 @@
-﻿@namespace MfePoc.Home.Views.Home
+﻿@namespace AuthEx.Home.Views.Home
 @using Microsoft.AspNetCore.Hosting
 @inject IWebHostEnvironment WebHostEnvironment
 @{
@@ -11,32 +11,6 @@
 
 <h1 class="display-4">Welcome</h1>
 <p>
-    A proof of concept demonstrating mixing:
-    <ul>
-        <li>Traditional MVC (i.e., server-side .cshtml);</li>
-        <li>Blazor server-side;</li>
-        <li>Blazor client-side.</li>
-    </ul>
-</p>
-<p>
-    Each technology is hosted in its own process.
-    There is no database, so if the application is left idle, or a deployments restarts it, all the data resets to zero.
-</p>
-<p>
-    GitHub repository:
-    <a href="https://github.com/FlukeFan/MfePoc" target="mfepoc_github">open in new window</a>
-</p>
-<p>
-    AppVeyor build:
-    <a href="https://ci.appveyor.com/project/FlukeFan/mfepoc" target="mfepoc_appveyor">
-        <img src="https://ci.appveyor.com/api/projects/status/github/FlukeFan/mfepoc?svg=true" alt="Project Badge">
-    </a>
-</p>
-<p>
-    Article:
-    <a href="https://rgbco.uk/articles/microFrontends" target="mfepoc_article">open in new window</a>
-</p>
-<p>
     Modules:
     <ul>
         @foreach (var warmupUrl in warmupUrls)
@@ -44,9 +18,6 @@
             <li>@warmupUrl.Name: <span id="warmup-status-@warmupUrl.Name">checking <span class="spinner-border spinner-border-sm">&nbsp;</span></span></li>
         }
     </ul>
-</p>
-<p>
-    This was rendered from process Id=@System.Diagnostics.Process.GetCurrentProcess().Id Framework=@System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription
 </p>
 
 @section Scripts {

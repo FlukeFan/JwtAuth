@@ -4,7 +4,7 @@ using System.Xml;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace MfePoc.Home.Views.Home
+namespace AuthEx.Home.Views.Home
 {
     public static class IndexModel
     {
@@ -14,7 +14,7 @@ namespace MfePoc.Home.Views.Home
             var rootPath = Path.Combine(host.ContentRootPath, "..");
 
             if (host.IsDevelopment())
-                while (!File.Exists(Path.Combine(rootPath, "MfePoc.sln")))
+                while (!File.Exists(Path.Combine(rootPath, "AuthEx.sln")))
                     rootPath = Path.Combine(rootPath, "..");
 
             var moduleFiles = Directory.GetFiles(rootPath, "module.xml", SearchOption.AllDirectories);
