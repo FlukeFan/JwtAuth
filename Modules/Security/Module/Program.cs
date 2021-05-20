@@ -2,7 +2,7 @@ using AuthEx.Shared;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace MfePoc.Dashboard
+namespace AuthEx.Security
 {
     public class Program
     {
