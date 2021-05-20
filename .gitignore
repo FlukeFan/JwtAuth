@@ -5,3 +5,4 @@ obj
 .build
 *.user
 logs
+/Tmp/users.json
