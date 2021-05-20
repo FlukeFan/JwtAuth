@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>aspnet-Tmp-8BD558A0-CB61-4052-8CEA-8C8DCD7E1A06</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
