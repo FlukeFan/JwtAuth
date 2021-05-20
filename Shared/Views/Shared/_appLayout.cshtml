@@ -1,4 +1,4 @@
-﻿@namespace MfePoc.Shared.Views.Shared
+﻿@namespace AuthEx.Shared.Views.Shared
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @inject Microsoft.AspNetCore.Hosting.IWebHostEnvironment hostEnv
 @using Microsoft.Extensions.Hosting
@@ -26,8 +26,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Micro Frontends PoC in .NET - @layoutModel.Title</title>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.css" />
-    <link rel="stylesheet" href="~/_content/MfePoc.Shared/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/_content/MfePoc.Shared/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/_content/AuthEx.Shared/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/_content/AuthEx.Shared/css/site.css" asp-append-version="true" />
     @if (!string.IsNullOrWhiteSpace(layoutModel.BaseUrl))
     {
         <base href="@layoutModel.BaseUrl" />
@@ -94,11 +94,11 @@
         </div>
     </footer>
 
-    <script src="~/_content/MfePoc.Shared/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/_content/MfePoc.Shared/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/_content/MfePoc.Shared/lib/bootstrap-notify/dist/bootstrap-notify.min.js"></script>
-    <script src="~/_content/MfePoc.Shared/js/mfeNotify.js" asp-append-version="true"></script>
-    <script src="~/_content/MfePoc.Shared/js/resizeIframe.js" asp-append-version="true"></script>
+    <script src="~/_content/AuthEx.Shared/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/_content/AuthEx.Shared/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/_content/AuthEx.Shared/lib/bootstrap-notify/dist/bootstrap-notify.min.js"></script>
+    <script src="~/_content/AuthEx.Shared/js/mfeNotify.js" asp-append-version="true"></script>
+    <script src="~/_content/AuthEx.Shared/js/resizeIframe.js" asp-append-version="true"></script>
 
     @if (!string.IsNullOrWhiteSpace(layoutModel.CustomScript))
     {
@@ -108,7 +108,7 @@
     @if (layoutModel.EnableBlazorServerSide)
     {
         <script src="@(layoutModel.BaseUrl)_framework/blazor.server.js"></script>
-        <script src="~/_content/MfePoc.Shared/js/blazorServerReload.js" asp-append-version="true"></script>
+        <script src="~/_content/AuthEx.Shared/js/blazorServerReload.js" asp-append-version="true"></script>
     }
 
     @if (layoutModel.EnableBlazorClientSide)

@@ -1,4 +1,4 @@
-using MfePoc.Shared;
+using AuthEx.Shared;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -18,7 +18,7 @@ namespace MfePoc.Home
                 {
                     webBuilder
                         .UseStartup<Startup>()
-                        .UseMfePocNLog();
+                        .UseAuthExNLog();
                 });
     }
 }

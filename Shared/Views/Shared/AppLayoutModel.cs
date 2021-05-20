@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Hosting;
 
-namespace MfePoc.Shared.Views.Shared
+namespace AuthEx.Shared.Views.Shared
 {
     public class AppLayoutModel
     {
@@ -32,7 +32,7 @@ namespace MfePoc.Shared.Views.Shared
                     var rootPath = Path.Combine(host.ContentRootPath, "..");
 
                     if (host.IsDevelopment())
-                        while (!File.Exists(Path.Combine(rootPath, "MfePoc.sln")))
+                        while (!File.Exists(Path.Combine(rootPath, "AuthEx.sln")))
                             rootPath = Path.Combine(rootPath, "..");
 
                     var moduleFiles = Directory.GetFiles(rootPath, "module.xml", SearchOption.AllDirectories);

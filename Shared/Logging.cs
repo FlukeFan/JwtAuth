@@ -9,14 +9,14 @@ using NLog.Targets;
 using NLog.Targets.Wrappers;
 using NLog.Web;
 
-namespace MfePoc.Shared
+namespace AuthEx.Shared
 {
     public static class Logging
     {
         public static void SetupNLog<T>(Action run)
         {
             var loggerFullName = typeof(T).FullName;
-            var moduleName = loggerFullName.Replace("MfePoc.", "").Replace(".Program", "");
+            var moduleName = loggerFullName.Replace("AuthEx.", "").Replace(".Program", "");
 
             var config = new LoggingConfiguration();
 
@@ -25,7 +25,7 @@ namespace MfePoc.Shared
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
             if (environment == Environments.Development)
-                while (!File.Exists(Path.Combine(rootFolder, "MfePoc.sln")))
+                while (!File.Exists(Path.Combine(rootFolder, "AuthEx.sln")))
                     rootFolder = Directory.GetParent(rootFolder).FullName;
 
             var logFolder = Path.Combine(rootFolder, "logs");
@@ -74,7 +74,7 @@ namespace MfePoc.Shared
             LogManager.Shutdown();
         }
 
-        public static IWebHostBuilder UseMfePocNLog(this IWebHostBuilder builder)
+        public static IWebHostBuilder UseAuthExNLog(this IWebHostBuilder builder)
         {
             builder.UseNLog();
             return builder;

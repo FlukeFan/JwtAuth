@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace MfePoc.Home.Controllers
+namespace AuthEx.Home.Controllers
 {
     public class HomeController : Controller
     {
