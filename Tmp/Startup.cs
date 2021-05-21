@@ -3,7 +3,6 @@ using AuthEx.Shared.Security;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,12 +23,12 @@ namespace Tmp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo("c:\\temp\\dp_keys"));
+                .PersistKeysToFileSystem(new DirectoryInfo("c:\\temp\\auth_ex_dp_keys"));
 
             services.AddDefaultIdentity<AuthExUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddUserStore<UserStore>();
 
-            services.AddTransient<IEmailSender, EmailSender>();
+            //services.AddTransient<IEmailSender, EmailSender>();
             services.AddRazorPages();
         }
 

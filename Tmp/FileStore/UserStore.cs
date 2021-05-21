@@ -103,7 +103,8 @@ namespace Tmp.FileStore
 
         public Task SetEmailConfirmedAsync(AuthExUser user, bool confirmed, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            user.EmailConfirmed = confirmed;
+            return Task.CompletedTask;
         }
 
         public Task SetNormalizedEmailAsync(AuthExUser user, string normalizedEmail, CancellationToken cancellationToken)
@@ -130,9 +131,17 @@ namespace Tmp.FileStore
             return Task.CompletedTask;
         }
 
-        public Task<IdentityResult> UpdateAsync(AuthExUser user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> UpdateAsync(AuthExUser user, CancellationToken cancellationToken)
         {
-            throw new System.NotImplementedException();
+            await UsingUsers(users =>
+            {
+                var existingUser = users.Single(u => u.Id == user.Id);
+                var index = users.IndexOf(existingUser);
+                users.RemoveAt(index);
+                users.Insert(index, user);
+                return Task.CompletedTask;
+            });
+            return IdentityResult.Success;
         }
 
         private Task UsingUsers(Action<IList<AuthExUser>> usersAction)
