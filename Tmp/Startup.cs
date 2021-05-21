@@ -1,5 +1,7 @@
+using System.IO;
 using AuthEx.Shared.Security;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,9 @@ namespace Tmp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDataProtection()
+                .PersistKeysToFileSystem(new DirectoryInfo("c:\\temp\\dp_keys"));
+
             services.AddDefaultIdentity<AuthExUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddUserStore<UserStore>();
 
