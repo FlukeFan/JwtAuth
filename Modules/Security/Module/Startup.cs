@@ -24,7 +24,7 @@ namespace AuthEx.Security
 
             services.AddSignalR();
 
-            var mvcBuilder = services.AddControllersWithViews();
+            var mvcBuilder = services.AddRazorPages();
 
             if (HostEnvironment.IsDevelopment())
             {
@@ -49,6 +49,7 @@ namespace AuthEx.Security
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapRazorPages();
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

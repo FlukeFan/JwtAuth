@@ -1,6 +1,5 @@
 using System.IO;
 using AuthEx.Shared.Security;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
@@ -50,7 +49,7 @@ namespace AuthEx.Home
             services.AddAuthentication(SecurityConstants.AuthenticationScheme)
                 .AddCookie(SecurityConstants.AuthenticationScheme, opt =>
                 {
-                    opt.LoginPath = "/Tmp/Identity/Account/Login";
+                    opt.LoginPath = "/Security/Identity/Account/Login";
                 });
 
             services.ConfigureApplicationCookie(opt =>
