@@ -23,10 +23,19 @@ namespace Tmp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo("c:\\temp\\auth_ex_dp_keys"));
+                .PersistKeysToFileSystem(new DirectoryInfo("c:\\temp\\auth_ex_dp_keys"))
+                .SetApplicationName(SecurityConstants.ApplicationName);
 
             services.AddDefaultIdentity<AuthExUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddUserStore<UserStore>();
+
+            services.AddAuthentication(SecurityConstants.AuthenticationScheme);
+
+            services.ConfigureApplicationCookie(opt =>
+            {
+                opt.Cookie.Name = SecurityConstants.CookieName;
+                opt.Cookie.Path = "/";
+            });
 
             //services.AddTransient<IEmailSender, EmailSender>();
             services.AddRazorPages();

@@ -74,6 +74,9 @@ namespace AuthEx.Shared.Views.Shared
                 }
             }
 
+            _menus.Insert(0, new Menu { Text = "Page 1", Path = "/Home/Page1" });
+            _menus.Insert(1, new Menu { Text = "Page 2", Path = "/Home/Page2" });
+
             return _menus;
         }
     }
