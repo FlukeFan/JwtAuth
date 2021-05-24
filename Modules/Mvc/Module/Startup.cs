@@ -39,8 +39,8 @@ namespace AuthEx.Mvc
                 });
             }
 
-            services.AddAuthentication(defaultScheme: SecurityConstants.JwtAuthScheme)
-                .AddJwtBearer(SecurityConstants.JwtAuthScheme, opt =>
+            services.AddAuthentication(defaultScheme: SecurityConstants.OidcScheme)
+                .AddJwtBearer(SecurityConstants.JwtScheme, opt =>
                 {
                     opt.Events = new JwtBearerEvents
                     {
@@ -51,13 +51,15 @@ namespace AuthEx.Mvc
                         },
                     };
                 })
-                .AddOpenIdConnect(opt =>
+                .AddOpenIdConnect(SecurityConstants.OidcScheme, opt =>
                 {
                     if (HostEnvironment.IsDevelopment())
                         opt.RequireHttpsMetadata = false;
 
                     opt.Authority = Configuration.GetValue<string>("OidcProvider");
                     opt.ClientId = "AuthEx";
+
+                    opt.SignInScheme = SecurityConstants.JwtScheme;
                 });
         }
 
