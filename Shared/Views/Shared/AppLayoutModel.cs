@@ -46,6 +46,10 @@ namespace AuthEx.Shared.Views.Shared
                         doc.Load(moduleFile);
 
                         var menuElement = (XmlElement)doc.SelectSingleNode("//Menu");
+
+                        if (menuElement == null)
+                            continue;
+
                         var menu = new Menu
                         {
                             Position = int.Parse(menuElement.GetAttribute("Position")),
@@ -73,9 +77,6 @@ namespace AuthEx.Shared.Views.Shared
                     _menus = menus.OrderBy(m => m.Position).ToList();
                 }
             }
-
-            _menus.Insert(0, new Menu { Text = "Page 1", Path = "/Home/Page1" });
-            _menus.Insert(1, new Menu { Text = "Page 2", Path = "/Home/Page2" });
 
             return _menus;
         }

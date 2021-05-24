@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xml>
+  <Warmup Name="Mvc" Url="/Mvc/Home/Unsecured" />
+  <Menu Position="0" Text="Mvc">
+    <MenuItem Text="Unsecured" Path="/Mvc/Home/Unsecured" />
+    <MenuItem Text="Secured" Path="/Mvc/Home/Secured" />
+  </Menu>
+</xml>
