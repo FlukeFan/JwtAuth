@@ -51,8 +51,7 @@ namespace AuthEx.Security
 
             services.AddOpenIddict(opt =>
             {
-                opt.AddCore(o => o.UseEntityFrameworkCore().UseDbContext<AuthExSecurityContext>());
-
+                opt.AddCore(o => o.UseEntityFrameworkCore().UseDbContext<OpenIdCtx>());
 
                 opt.AddServer(options =>
                 {
@@ -77,6 +76,8 @@ namespace AuthEx.Security
                         .DisableTransportSecurityRequirement();
                 });
             });
+
+            services.AddHostedService<OpenIdCtxSetup>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

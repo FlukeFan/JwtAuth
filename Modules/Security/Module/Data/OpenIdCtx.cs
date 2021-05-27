@@ -4,7 +4,7 @@ namespace AuthEx.Security.Data
 {
     public class OpenIdCtx : DbContext
     {
-        public OpenIdCtx(DbContextOptions<AuthExSecurityContext> options)
+        public OpenIdCtx(DbContextOptions<OpenIdCtx> options)
             : base(options)
         {
         }
