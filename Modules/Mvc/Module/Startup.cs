@@ -39,6 +39,8 @@ namespace AuthEx.Mvc
                 });
             }
 
+            var authority = Configuration.GetValue<string>("OidcProvider");
+
             services.AddAuthentication(opt =>
                 {
                     opt.DefaultAuthenticateScheme = SecurityConstants.JwtScheme;
@@ -46,6 +48,11 @@ namespace AuthEx.Mvc
                 })
                 .AddJwtBearer(SecurityConstants.JwtScheme, opt =>
                 {
+                    if (HostEnvironment.IsDevelopment())
+                        opt.RequireHttpsMetadata = false;
+
+                    opt.Authority = authority;
+
                     opt.Events = new JwtBearerEvents
                     {
                         OnMessageReceived = ctx =>
@@ -60,7 +67,7 @@ namespace AuthEx.Mvc
                     if (HostEnvironment.IsDevelopment())
                         opt.RequireHttpsMetadata = false;
 
-                    opt.Authority = Configuration.GetValue<string>("OidcProvider");
+                    opt.Authority = authority;
                     opt.ClientId = "AuthEx";
 
                     opt.SignInScheme = SecurityConstants.JwtScheme;
