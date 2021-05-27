@@ -39,7 +39,11 @@ namespace AuthEx.Mvc
                 });
             }
 
-            services.AddAuthentication(defaultScheme: SecurityConstants.OidcScheme)
+            services.AddAuthentication(opt =>
+                {
+                    opt.DefaultAuthenticateScheme = SecurityConstants.JwtScheme;
+                    opt.DefaultChallengeScheme = SecurityConstants.OidcScheme;
+                })
                 .AddJwtBearer(SecurityConstants.JwtScheme, opt =>
                 {
                     opt.Events = new JwtBearerEvents
