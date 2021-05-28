@@ -39,7 +39,7 @@ namespace AuthEx.Shared
                 ConcurrentWrites = true,
                 ConcurrentWriteAttempts = 10,
                 ConcurrentWriteAttemptDelay = 43,
-                ForceMutexConcurrentWrites = true,
+                ForceMutexConcurrentWrites = false,
                 ArchiveEvery = FileArchivePeriod.Day,
                 MaxArchiveFiles = 7,
                 Layout = "${longdate}|${level:uppercase=true}|" + moduleName + "|${logger}|${message} ${exception:format=tostring}",

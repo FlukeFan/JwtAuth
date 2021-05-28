@@ -1,6 +1,9 @@
 using System.IO;
+using System.Security.Claims;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using AuthEx.Shared.Security;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
@@ -10,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace AuthEx.Mvc
 {
@@ -50,6 +55,7 @@ namespace AuthEx.Mvc
                 {
                     opt.DefaultAuthenticateScheme = SecurityConstants.JwtScheme;
                     opt.DefaultChallengeScheme = SecurityConstants.OidcScheme;
+                    opt.DefaultSignInScheme = "cky";
                 })
                 .AddJwtBearer(SecurityConstants.JwtScheme, opt =>
                 {
@@ -57,6 +63,7 @@ namespace AuthEx.Mvc
                         opt.RequireHttpsMetadata = false;
 
                     opt.Authority = authority;
+                    opt.Audience = SecurityConstants.ApplicationName;
 
                     opt.Events = new JwtBearerEvents
                     {
@@ -74,9 +81,15 @@ namespace AuthEx.Mvc
 
                     opt.Authority = authority;
                     opt.ClientId = "AuthEx";
+                    //opt.SignInScheme = "cky";
 
-                    opt.SignInScheme = SecurityConstants.JwtScheme;
-                });
+                    opt.Events.OnTokenValidated = tcv =>
+                    {
+                        tcv.HttpContext.Response.Cookies.Append("JwtCookie", tcv.SecurityToken.RawData);
+                        return Task.CompletedTask;
+                    };
+                })
+                .AddScheme<AuthenticationSchemeOptions, NullScheme>("cky", o => { });
         }
 
         public void Configure(IApplicationBuilder app)
@@ -96,6 +109,28 @@ namespace AuthEx.Mvc
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+    }
+
+    internal class NullScheme : AuthenticationHandler<AuthenticationSchemeOptions>, IAuthenticationSignInHandler
+    {
+        public NullScheme(IOptionsMonitor<AuthenticationSchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock)
+        {
+        }
+
+        public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task SignOutAsync(AuthenticationProperties properties)
+        {
+            return Task.CompletedTask;
+        }
+
+        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+        {
+            return Task.FromResult(AuthenticateResult.Success(null));
         }
     }
 }
