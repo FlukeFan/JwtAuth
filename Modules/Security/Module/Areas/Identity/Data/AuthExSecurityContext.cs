@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AuthEx.Shared.Security;
-using Microsoft.AspNetCore.Identity;
+﻿using AuthEx.Shared.Security;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace AuthEx.Security.Data
+namespace AuthEx.Security.Areas.Identity.Data
 {
     public class AuthExSecurityContext : IdentityDbContext<AuthExUser>
     {

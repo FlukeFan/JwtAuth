@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using AuthEx.Security.Data;
+using AuthEx.Security.Areas.Identity.Data;
 using AuthEx.Shared.Security;
 using FileContextCore;
 using Microsoft.AspNetCore.DataProtection;
@@ -32,6 +32,8 @@ namespace AuthEx.Security.Areas.Identity
                     opt.Cookie.Name = SecurityConstants.CookieName;
                     opt.Cookie.Path = "/";
                 });
+
+                services.AddHostedService<AuthExSecurityContextSetup>();
             });
         }
     }
