@@ -54,6 +54,15 @@ namespace AuthEx.Security.Controllers
             principal.SetScopes(request.GetScopes());
             var resources = _scopeManager.ListResourcesAsync(scopes);
             principal.SetResources(await resources.ToListAsync());
+            principal.SetClaim(OpenIddictConstants.Claims.Subject, user.Id);
+
+            //foreach (var claim in principal.Claims)
+            //{
+            //    if (claim.Type == "AspNet.Identity.SecurityStamp")
+            //        continue;
+
+            //    claim.SetDestinations(Destinations.AccessToken);
+            //}
 
             // Returning a SignInResult will ask OpenIddict to issue the appropriate access/identity tokens.
             return SignIn(principal, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
