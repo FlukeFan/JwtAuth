@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AuthEx.Shared.Security;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
 using OpenIddict.Abstractions;
+using OpenIddict.EntityFrameworkCore.Models;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace AuthEx.Security.Data
 {
@@ -29,20 +33,34 @@ namespace AuthEx.Security.Data
         {
             var manager = serviceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 
-            if (await manager.FindByClientIdAsync(SecurityConstants.ApplicationName) == null)
+            var client = (OpenIddictEntityFrameworkCoreApplication)await manager.FindByClientIdAsync(SecurityConstants.ApplicationName);
+
+            if (client == null)
             {
-                var descriptor = new OpenIddictApplicationDescriptor
+                client = new OpenIddictEntityFrameworkCoreApplication
                 {
                     ClientId = SecurityConstants.ApplicationName,
-                    DisplayName = "Auth Example",
-                    RedirectUris =
-                        {
-                            new Uri("http://localhost:8124/*/signin-oidc")
-                        },
                 };
 
-                await manager.CreateAsync(descriptor);
+                await manager.CreateAsync(client);
             }
+
+            var redirectUris = SecurityConstants.Modules.Select(m => new Uri($"http://localhost:8124/{m}/signin-oidc"));
+            client.RedirectUris = JsonConvert.SerializeObject(redirectUris);
+
+            client.DisplayName = "Auth Example";
+
+            var permissions = new[]
+            {
+                Permissions.Endpoints.Authorization,
+                Permissions.GrantTypes.Implicit,
+                Permissions.ResponseTypes.IdToken,
+                Permissions.Scopes.Profile,
+
+            };
+            client.Permissions = JsonConvert.SerializeObject(permissions);
+
+            await manager.UpdateAsync(client);
         }
     }
 }

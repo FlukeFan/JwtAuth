@@ -11,6 +11,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using ZipDeploy;
+using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace AuthEx.Security
 {
@@ -57,12 +58,7 @@ namespace AuthEx.Security
                 {
                     // Enable the authorization, logout, token and userinfo endpoints.
                     options.SetAuthorizationEndpointUris("/connect/authorize");
-
-                    // Mark the "email", "profile" and "roles" scopes as supported scopes.
-                    //options.RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
-
-                    // Note: this sample only uses the authorization code flow but you can enable
-                    // the other flows if you need to support implicit, password or client credentials.
+                    options.RegisterScopes(Scopes.OpenId, Scopes.Profile);
                     options.AllowImplicitFlow();
 
                     options.AddEncryptionKey(new SymmetricSecurityKey(
@@ -73,6 +69,7 @@ namespace AuthEx.Security
 
                     // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
                     options.UseAspNetCore()
+                        .EnableAuthorizationEndpointPassthrough()
                         .DisableTransportSecurityRequirement();
                 });
             });
