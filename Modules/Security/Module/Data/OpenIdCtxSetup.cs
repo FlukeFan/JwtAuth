@@ -45,7 +45,7 @@ namespace AuthEx.Security.Data
                 await manager.CreateAsync(client);
             }
 
-            var redirectUris = SecurityConstants.Modules.Select(m => new Uri($"http://localhost:8124/{m}/signin-oidc"));
+            var redirectUris = SecurityConstants.Modules.Select(m => new Uri($"https://localhost:8125/{m}/signin-oidc"));
             client.RedirectUris = JsonConvert.SerializeObject(redirectUris);
 
             client.DisplayName = "Auth Example";
