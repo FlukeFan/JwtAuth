@@ -1,10 +1,8 @@
 using System;
 using System.IO;
 using AuthEx.Security.Data;
-using AuthEx.Shared.Security;
 using FileContextCore;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.EntityFrameworkCore;
@@ -29,12 +27,6 @@ namespace AuthEx.Security
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddZipDeploy();
-
-            services.AddSignalR();
-
-            services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo("c:\\temp\\auth_ex_dp_keys"))
-                .SetApplicationName(SecurityConstants.ApplicationName);
 
             services.AddDbContext<OpenIdCtx>(options =>
             {

@@ -30,7 +30,6 @@ namespace AuthEx.Security.Areas.Identity
                 services.ConfigureApplicationCookie(opt =>
                 {
                     opt.Cookie.Name = SecurityConstants.CookieName;
-                    opt.Cookie.Path = "/";
                 });
 
                 services.AddHostedService<AuthExSecurityContextSetup>();
