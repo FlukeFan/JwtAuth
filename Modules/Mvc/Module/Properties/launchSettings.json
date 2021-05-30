@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "https://localhost:8125/Mvc",
+      "applicationUrl": "http://localhost:8124/Mvc",
       "sslPort": 0
     }
   },
