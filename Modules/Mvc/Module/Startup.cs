@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,7 +56,6 @@ namespace AuthEx.Mvc
                 {
                     opt.DefaultAuthenticateScheme = SecurityConstants.JwtScheme;
                     opt.DefaultChallengeScheme = SecurityConstants.OidcScheme;
-                    opt.DefaultSignInScheme = "cky";
                 })
                 .AddJwtBearer(SecurityConstants.JwtScheme, opt =>
                 {
@@ -81,7 +81,17 @@ namespace AuthEx.Mvc
 
                     opt.Authority = authority;
                     opt.ClientId = "AuthEx";
-                    //opt.SignInScheme = "cky";
+
+                    // development is non-https, so allow cookies to be shared
+                    if (HostEnvironment.IsDevelopment())
+                    {
+                        opt.CorrelationCookie.SameSite = SameSiteMode.Lax;
+                        opt.NonceCookie.SameSite = SameSiteMode.Lax;
+                    }
+
+                    // sign-in is handled by storing the Jwt in a cookie
+                    // in the OnTokenValidated event, so use a 'NullScheme'
+                    opt.SignInScheme = "cky";
 
                     opt.Events.OnTokenValidated = tcv =>
                     {
