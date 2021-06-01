@@ -48,11 +48,15 @@ namespace AuthEx.Security.Data
             var redirectUris = SecurityConstants.Modules.Select(m => new Uri($"http://localhost:8124/{m}/signin-oidc"));
             client.RedirectUris = JsonConvert.SerializeObject(redirectUris);
 
+            var logoutUris = SecurityConstants.Modules.Select(m => new Uri($"http://localhost:8124/{m}/signout-callback-oidc"));
+            client.PostLogoutRedirectUris = JsonConvert.SerializeObject(logoutUris);
+
             client.DisplayName = "Auth Example";
 
             var permissions = new[]
             {
                 Permissions.Endpoints.Authorization,
+                Permissions.Endpoints.Logout,
                 Permissions.GrantTypes.Implicit,
                 Permissions.ResponseTypes.IdToken,
                 Permissions.Scopes.Profile,

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Threading.Tasks;
+using AuthEx.Shared.Security;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AuthEx.Mvc.Controllers
@@ -14,6 +17,12 @@ namespace AuthEx.Mvc.Controllers
         public IActionResult Secured()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task LogOut()
+        {
+            await HttpContext.SignOutAsync(SecurityConstants.OidcScheme);
         }
     }
 }

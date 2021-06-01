@@ -92,10 +92,17 @@ namespace AuthEx.Mvc
                     // sign-in is handled by storing the Jwt in a cookie
                     // in the OnTokenValidated event, so use a 'NullScheme'
                     opt.SignInScheme = "cky";
+                    opt.SignedOutRedirectUri = "/Home/Unsecured";
 
                     opt.Events.OnTokenValidated = tcv =>
                     {
                         tcv.HttpContext.Response.Cookies.Append("JwtCookie", tcv.SecurityToken.RawData);
+                        return Task.CompletedTask;
+                    };
+
+                    opt.Events.OnRedirectToIdentityProviderForSignOut = rc =>
+                    {
+                        rc.Response.Cookies.Delete("JwtCookie");
                         return Task.CompletedTask;
                     };
                 })
@@ -140,7 +147,8 @@ namespace AuthEx.Mvc
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            return Task.FromResult(AuthenticateResult.Success(null));
+            var ticket = new AuthenticationTicket(Context.User, SecurityConstants.OidcScheme);
+            return Task.FromResult(AuthenticateResult.Success(ticket));
         }
     }
 }

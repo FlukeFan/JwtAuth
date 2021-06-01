@@ -56,6 +56,7 @@ namespace AuthEx.Security
                 {
                     // Enable the authorization, logout, token and userinfo endpoints.
                     options.SetAuthorizationEndpointUris("/connect/authorize");
+                    options.SetLogoutEndpointUris("/connect/logout");
                     options.RegisterScopes(Scopes.OpenId, Scopes.Profile);
                     options.AllowImplicitFlow();
 
@@ -68,6 +69,7 @@ namespace AuthEx.Security
                     // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
                     options.UseAspNetCore()
                         .EnableAuthorizationEndpointPassthrough()
+                        .EnableLogoutEndpointPassthrough()
                         .DisableTransportSecurityRequirement();
                 });
             });
