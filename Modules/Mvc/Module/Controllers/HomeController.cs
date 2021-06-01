@@ -19,6 +19,15 @@ namespace AuthEx.Mvc.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task LogIn()
+        {
+            if (User.Identity.IsAuthenticated)
+                HttpContext.Response.Redirect("/");
+            else
+                await HttpContext.ChallengeAsync(SecurityConstants.OidcScheme);
+        }
+
         [HttpPost]
         public async Task LogOut()
         {
