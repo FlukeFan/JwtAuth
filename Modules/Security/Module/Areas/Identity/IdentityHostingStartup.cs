@@ -3,6 +3,7 @@ using AuthEx.Security.Lib;
 using AuthEx.Shared.Security;
 using FileContextCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 [assembly: HostingStartup(typeof(AuthEx.Security.Areas.Identity.IdentityHostingStartup))]
@@ -17,15 +18,14 @@ namespace AuthEx.Security.Areas.Identity
                 services.AddDbContext<AuthExSecurityContext>(options =>
                     options.UseFileContextDatabase(location: "c:\\temp\\auth_ex_db"));
 
-                services.AddDefaultIdentity<AuthExUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddIdentityCore<AuthExUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddDefaultUI()
                     .AddEntityFrameworkStores<AuthExSecurityContext>();
 
                 services.AddHostedService<AuthExSecurityContextSetup>();
 
-                services.AddAuthentication(options =>
-                {
-                    options.DefaultSignInScheme = AuthenticationScheme.Name;
-                });
+                services.AddAuthentication(IdentityConstants.ExternalScheme)
+                    .AddScheme<SimpleJwtScheme.SchemeOptions, SimpleJwtScheme>(IdentityConstants.ExternalScheme, o => { });
             });
         }
     }

@@ -7,8 +7,8 @@ namespace AuthEx.Security.Lib
         public static IServiceCollection AddAuthExAuthentication(this IServiceCollection services)
         {
             services
-                .AddAuthentication(AuthenticationScheme.Name)
-                .AddScheme<AuthenticationScheme.SchemeOptions, AuthenticationScheme>(AuthenticationScheme.Name, o => { });
+                .AddAuthentication(SimpleJwtScheme.Name)
+                .AddScheme<SimpleJwtScheme.SchemeOptions, SimpleJwtScheme>(SimpleJwtScheme.Name, o => { });
 
             return services;
         }

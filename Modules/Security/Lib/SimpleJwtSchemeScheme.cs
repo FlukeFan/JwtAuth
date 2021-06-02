@@ -7,11 +7,11 @@ using Microsoft.Extensions.Options;
 
 namespace AuthEx.Security.Lib
 {
-    public class AuthenticationScheme : SignInAuthenticationHandler<AuthenticationScheme.SchemeOptions>
+    public class SimpleJwtScheme : SignInAuthenticationHandler<SimpleJwtScheme.SchemeOptions>
     {
-        public const string Name = "AuthExScheme";
+        public const string Name = "SimpleJwtScheme";
 
-        public AuthenticationScheme(IOptionsMonitor<SchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock)
+        public SimpleJwtScheme(IOptionsMonitor<SchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock)
         {
         }
 
