@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Modules\Security\Lib\AuthEx.Security.Lib.csproj" />
     <ProjectReference Include="..\Shared\AuthEx.Shared.csproj" />
   </ItemGroup>
 

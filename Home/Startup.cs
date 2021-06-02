@@ -1,7 +1,6 @@
 using System.IO;
-using AuthEx.Shared.Security;
+using AuthEx.Security.Lib;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.Configuration;
@@ -42,21 +41,7 @@ namespace AuthEx.Home
                 });
             }
 
-            services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo("c:\\temp\\auth_ex_dp_keys"))
-                .SetApplicationName(SecurityConstants.ApplicationName);
-
-            services.AddAuthentication(SecurityConstants.AuthenticationScheme)
-                .AddCookie(SecurityConstants.AuthenticationScheme, opt =>
-                {
-                    opt.LoginPath = "/Security/Identity/Account/Login";
-                });
-
-            services.ConfigureApplicationCookie(opt =>
-            {
-                opt.Cookie.Name = SecurityConstants.CookieName;
-                opt.Cookie.Path = "/";
-            });
+            services.AddAuthExAuthentication();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
