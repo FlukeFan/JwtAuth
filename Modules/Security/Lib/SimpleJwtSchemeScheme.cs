@@ -31,14 +31,10 @@ namespace AuthEx.Security.Lib
             return Task.CompletedTask;
         }
 
-        public override Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties)
-        {
-            return base.SignInAsync(user, properties);
-        }
-
         protected override Task HandleSignInAsync(ClaimsPrincipal user, AuthenticationProperties properties)
         {
-            throw new System.NotImplementedException();
+            Response.Cookies.Append("JwtCookie", "jwt-goes-here");
+            return Task.CompletedTask;
         }
 
         protected override Task HandleSignOutAsync(AuthenticationProperties properties)
