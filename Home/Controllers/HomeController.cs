@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -32,6 +33,7 @@ namespace AuthEx.Home.Controllers
             var output = "JWT\n\n";
 
             var provider = GetProvider();
+            var key = new RsaSecurityKey(provider);
 
             var publicKey = provider.ExportSubjectPublicKeyInfo();
             var pub = Convert.ToBase64String(publicKey);
@@ -49,7 +51,7 @@ namespace AuthEx.Home.Controllers
                 Expires = DateTime.UtcNow.AddDays(7),
                 Issuer = issuer,
                 Audience = audience,
-                SigningCredentials = new SigningCredentials(new RsaSecurityKey(provider), SecurityAlgorithms.RsaSha256Signature)
+                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.RsaSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -61,9 +63,14 @@ namespace AuthEx.Home.Controllers
             var invalidJwtPart = validJwtDecoded.Replace("user1", "user2");
             var invalidJwt = $"{validJwtParts[0]}.{Convert.ToBase64String(Encoding.ASCII.GetBytes(invalidJwtPart))}.{validJwtParts[2]}";
 
+            output += $"pub=\n-----BEGIN PUBLIC KEY-----{pub}-----END PUBLIC KEY-----\n\n";
             output += $"valid JWT=\n{validJwt}\n\n";
             output += $"invalid JWT=\n{invalidJwt}\n\n";
-            output += $"pub=\n-----BEGIN PUBLIC KEY-----{pub}-----END PUBLIC KEY-----\n\n";
+
+            output += $"validate(valid JTW)={Validate(validJwt, issuer, audience, key)}\n";
+            output += $"validate(invalid JTW)={Validate(invalidJwt, issuer, audience, key)}\n\n";
+
+            output += $"claims: {string.Join("; ", Claims(validJwt))}\n\n";
 
             return Content(output);
         }
@@ -77,6 +84,35 @@ namespace AuthEx.Home.Controllers
 
             provider.FromXmlString(System.IO.File.ReadAllText("params.txt"));
             return provider;
+        }
+
+        private string Validate(string jwt, string issuer, string audience, SecurityKey key)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            try
+            {
+                tokenHandler.ValidateToken(jwt, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidIssuer = issuer,
+                    ValidAudience = audience,
+                    IssuerSigningKey = key
+                }, out _);
+            }
+            catch (Exception ex)
+            {
+                return "False: " + ex.Message.Replace("\n", "; ");
+            }
+            return "True";
+        }
+
+        private string[] Claims(string jwt)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var securityToken = tokenHandler.ReadToken(jwt) as JwtSecurityToken;
+            return securityToken.Claims.Select(c => $"{c.Type}:{c.Value}").ToArray();
         }
     }
 }
