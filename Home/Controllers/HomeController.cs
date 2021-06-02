@@ -31,14 +31,13 @@ namespace AuthEx.Home.Controllers
         {
             var output = "JWT\n\n";
 
-            var provider = new RSACryptoServiceProvider(4096);
-            var key = new RsaSecurityKey(provider);
+            var provider = GetProvider();
 
             var publicKey = provider.ExportSubjectPublicKeyInfo();
             var pub = Convert.ToBase64String(publicKey);
 
-            var myIssuer = "http://localhost:8124";
-            var myAudience = "http://localhost:8124";
+            var issuer = "http://localhost:8124";
+            var audience = "http://localhost:8124";
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -48,9 +47,9 @@ namespace AuthEx.Home.Controllers
                     new Claim(ClaimTypes.NameIdentifier, "user1"),
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
-                Issuer = myIssuer,
-                Audience = myAudience,
-                SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.RsaSha256Signature)
+                Issuer = issuer,
+                Audience = audience,
+                SigningCredentials = new SigningCredentials(new RsaSecurityKey(provider), SecurityAlgorithms.RsaSha256Signature)
             };
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -67,6 +66,17 @@ namespace AuthEx.Home.Controllers
             output += $"pub=\n-----BEGIN PUBLIC KEY-----{pub}-----END PUBLIC KEY-----\n\n";
 
             return Content(output);
+        }
+
+        private RSACryptoServiceProvider GetProvider()
+        {
+            var provider = new RSACryptoServiceProvider(4096);
+
+            if (!System.IO.File.Exists("params.txt"))
+                System.IO.File.WriteAllText("params.txt", provider.ToXmlString(true));
+
+            provider.FromXmlString(System.IO.File.ReadAllText("params.txt"));
+            return provider;
         }
     }
 }
