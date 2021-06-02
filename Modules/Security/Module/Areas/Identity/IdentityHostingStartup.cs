@@ -24,8 +24,8 @@ namespace AuthEx.Security.Areas.Identity
 
                 services.AddHostedService<AuthExSecurityContextSetup>();
 
-                services.AddAuthentication(IdentityConstants.ExternalScheme)
-                    .AddScheme<SimpleJwtScheme.SchemeOptions, SimpleJwtScheme>(IdentityConstants.ExternalScheme, o => { });
+                services.AddAuthentication()
+                    .AddScheme<SimpleJwtScheme.SchemeOptions, SimpleJwtScheme>(IdentityConstants.ApplicationScheme, o => { });
             });
         }
     }

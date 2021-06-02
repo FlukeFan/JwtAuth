@@ -43,7 +43,8 @@ namespace AuthEx.Security.Lib
 
         protected override Task HandleSignOutAsync(AuthenticationProperties properties)
         {
-            throw new System.NotImplementedException();
+            Context.Response.Cookies.Delete("JwtCookie");
+            return Task.CompletedTask;
         }
     }
 }
