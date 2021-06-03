@@ -5,5 +5,9 @@
 }
 
 <p>
-    Security module.
+    Security module.  This module handles sign-in (using ASP.NET Core Identity), and instead of the original cookie authentication,
+    signs a JWT as stores that in a cookie instead.
+</p>
+<p>
+    The JWT is signed using RS256, and the public key is exposed to other modules so they can verify the signature of the cookie.
 </p>

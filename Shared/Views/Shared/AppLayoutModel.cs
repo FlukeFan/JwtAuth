@@ -121,5 +121,15 @@ namespace AuthEx.Shared.Views.Shared
 
             page.ViewContext.ViewData["appLayoutModel"] = model;
         }
+
+        public static void SetPageTitle(this IRazorPage page, string title)
+        {
+            var model = (AppLayoutModel)page.ViewContext.ViewData["appLayoutModel"]
+                ?? new AppLayoutModel();
+
+            model.Title = title;
+
+            page.ViewContext.ViewData["appLayoutModel"] = model;
+        }
     }
 }
