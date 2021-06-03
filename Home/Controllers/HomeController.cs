@@ -67,27 +67,34 @@ namespace AuthEx.Home.Controllers
             output += $"valid JWT=\n{validJwt}\n\n";
             output += $"invalid JWT=\n{invalidJwt}\n\n";
 
-            output += $"validate(valid JTW)={Validate(validJwt, issuer, audience, key)}\n";
-            output += $"validate(invalid JTW)={Validate(invalidJwt, issuer, audience, key)}\n\n";
+            output += $"validate(valid JTW)={Validate(validJwt, issuer, audience, pub)}\n";
+            output += $"validate(invalid JTW)={Validate(invalidJwt, issuer, audience, pub)}\n\n";
 
             output += $"claims: {string.Join("; ", Claims(validJwt))}\n\n";
 
             return Content(output);
         }
 
-        private RSACryptoServiceProvider GetProvider()
+        private RSA GetProvider()
         {
-            var provider = new RSACryptoServiceProvider(4096);
-
             if (!System.IO.File.Exists("params.txt"))
-                System.IO.File.WriteAllText("params.txt", provider.ToXmlString(true));
+            {
+                var newKey = RSA.Create(4096);
+                System.IO.File.WriteAllText("params.txt", newKey.ToXmlString(true));
+            }
 
+            var provider = RSA.Create();
             provider.FromXmlString(System.IO.File.ReadAllText("params.txt"));
             return provider;
         }
 
-        private string Validate(string jwt, string issuer, string audience, SecurityKey key)
+        private string Validate(string jwt, string issuer, string audience, string pub)
         {
+            var provider = RSA.Create();
+            var pubBytes = Convert.FromBase64String(pub);
+            provider.ImportSubjectPublicKeyInfo(pubBytes, out _);
+            var key = new RsaSecurityKey(provider);
+
             var tokenHandler = new JwtSecurityTokenHandler();
             try
             {
