@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <xml>
   <Warmup Name="Security" Url="/Security" />
+  <Menu Position="0" Text="Security" Path="/Security" />
 </xml>
