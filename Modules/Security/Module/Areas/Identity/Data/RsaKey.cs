@@ -44,13 +44,11 @@ namespace AuthEx.Security.Areas.Identity.Data
             return encoded;
         }
 
-        public string CreateSignedJwt(ClaimsPrincipal user)
+        public string CreateSignedJwt(ClaimsPrincipal user, string externalUrl)
         {
             var provider = CreateProvider();
 
             var key = new RsaSecurityKey(provider);
-            var issuer = "http://localhost:8124";
-            var audience = "http://localhost:8124";
 
             var tokenHandler = new JwtSecurityTokenHandler();
 
@@ -64,8 +62,8 @@ namespace AuthEx.Security.Areas.Identity.Data
             {
                 Subject = identity,
                 Expires = DateTime.UtcNow.AddDays(7),
-                Issuer = issuer,
-                Audience = audience,
+                Issuer = externalUrl,
+                Audience = externalUrl,
                 SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.RsaSha256Signature)
             };
 
