@@ -19,20 +19,30 @@ namespace AuthEx.Security.Areas.Identity.Data
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using var scope = _serviceProvider.CreateScope();
-            await CreateUsers(scope.ServiceProvider);
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                await CreateKeyAsync(scope.ServiceProvider);
+                await CreateUsersAsync(scope.ServiceProvider);
+            }
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
-        private async Task CreateUsers(IServiceProvider serviceProvider)
+        private async Task CreateKeyAsync(IServiceProvider serviceProvider)
         {
-            var userManager = serviceProvider.GetRequiredService<UserManager<AuthExUser>>();
-            await CreateUser(userManager, UserData.User.Username, UserData.User.Password);
-            await CreateUser(userManager, UserData.Admin.Username, UserData.Admin.Password);
+            var ctx = serviceProvider.GetRequiredService<AuthExSecurityContext>();
+            await RsaKey.FindOrCreateAsync(ctx);
+            await ctx.SaveChangesAsync();
         }
 
-        private async Task CreateUser(UserManager<AuthExUser> userManager, string username, string password)
+        private async Task CreateUsersAsync(IServiceProvider serviceProvider)
+        {
+            var userManager = serviceProvider.GetRequiredService<UserManager<AuthExUser>>();
+            await CreateUserAsync(userManager, UserData.User.Username, UserData.User.Password);
+            await CreateUserAsync(userManager, UserData.Admin.Username, UserData.Admin.Password);
+        }
+
+        private async Task CreateUserAsync(UserManager<AuthExUser> userManager, string username, string password)
         {
             var user = await userManager.FindByNameAsync(username);
 

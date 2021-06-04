@@ -6,7 +6,6 @@ using AuthEx.Security.Lib;
 using AuthEx.Shared.Security;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.Extensions.Configuration;
@@ -31,10 +30,6 @@ namespace AuthEx.Mvc
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDataProtection()
-                .PersistKeysToFileSystem(new DirectoryInfo("c:\\temp\\auth_ex_dp_keys"))
-                .SetApplicationName(SecurityConstants.ApplicationName);
-
             var mvcBuilder = services.AddMvc();
 
             if (HostEnvironment.IsDevelopment())
