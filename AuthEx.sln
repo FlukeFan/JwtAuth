@@ -20,13 +20,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Security", "Security", "{E1
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthEx.Security", "Modules\Security\Module\AuthEx.Security.csproj", "{C6A7CF07-0338-4ABE-84D5-07760D7299F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tmp", "Tmp\Tmp.csproj", "{552E0FCA-AEDC-4265-B8B6-205D2620965B}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mvc", "Mvc", "{E077617D-CF87-41D6-A763-30C2B1212643}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthEx.Mvc", "Modules\Mvc\Module\AuthEx.Mvc.csproj", "{E10A3124-B0EB-42E7-B07E-57C8C19B9EA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthEx.Mvc", "Modules\Mvc\Module\AuthEx.Mvc.csproj", "{E10A3124-B0EB-42E7-B07E-57C8C19B9EA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthEx.Security.Lib", "Modules\Security\Lib\AuthEx.Security.Lib.csproj", "{E8463C0E-3268-4EDB-A8CA-7D8AF6A3BB45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthEx.Security.Lib", "Modules\Security\Lib\AuthEx.Security.Lib.csproj", "{E8463C0E-3268-4EDB-A8CA-7D8AF6A3BB45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,18 +72,6 @@ Global
 		{C6A7CF07-0338-4ABE-84D5-07760D7299F3}.Release|x64.Build.0 = Release|Any CPU
 		{C6A7CF07-0338-4ABE-84D5-07760D7299F3}.Release|x86.ActiveCfg = Release|Any CPU
 		{C6A7CF07-0338-4ABE-84D5-07760D7299F3}.Release|x86.Build.0 = Release|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Debug|x64.Build.0 = Debug|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Debug|x86.Build.0 = Debug|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Release|x64.ActiveCfg = Release|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Release|x64.Build.0 = Release|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Release|x86.ActiveCfg = Release|Any CPU
-		{552E0FCA-AEDC-4265-B8B6-205D2620965B}.Release|x86.Build.0 = Release|Any CPU
 		{E10A3124-B0EB-42E7-B07E-57C8C19B9EA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E10A3124-B0EB-42E7-B07E-57C8C19B9EA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E10A3124-B0EB-42E7-B07E-57C8C19B9EA7}.Debug|x64.ActiveCfg = Debug|Any CPU

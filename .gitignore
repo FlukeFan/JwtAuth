@@ -5,5 +5,3 @@ obj
 .build
 *.user
 logs
-/Tmp/users.json
-/Home/params.txt
