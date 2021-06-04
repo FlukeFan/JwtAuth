@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace AuthEx.Security.Lib
 {
@@ -8,7 +9,7 @@ namespace AuthEx.Security.Lib
         {
             services
                 .AddAuthentication(JwtAuthenticationHandler.SchemeName)
-                .AddScheme<JwtAuthenticationHandler.SchemeOptions, JwtAuthenticationHandler>(JwtAuthenticationHandler.SchemeName, o => { });
+                .AddScheme<AuthenticationSchemeOptions, JwtAuthenticationHandler>(JwtAuthenticationHandler.SchemeName, o => { });
 
             return services;
         }

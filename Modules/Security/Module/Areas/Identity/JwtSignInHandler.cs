@@ -18,10 +18,10 @@ namespace AuthEx.Security.Areas.Identity
         public JwtSignInHandler(
             IConfiguration cfg,
             AuthExSecurityContext db,
-            IOptionsMonitor<SchemeOptions> options,
+            IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
-            ISystemClock clock) : base(options, logger, encoder, clock)
+            ISystemClock clock) : base(cfg, options, logger, encoder, clock)
         {
             _cfg = cfg;
             _db = db;

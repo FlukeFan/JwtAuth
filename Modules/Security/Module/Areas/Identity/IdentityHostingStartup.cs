@@ -1,7 +1,7 @@
 ﻿using AuthEx.Security.Areas.Identity.Data;
-using AuthEx.Security.Lib;
 using AuthEx.Shared.Security;
 using FileContextCore;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,7 +25,7 @@ namespace AuthEx.Security.Areas.Identity
                 services.AddHostedService<AuthExSecurityContextSetup>();
 
                 services.AddAuthentication()
-                    .AddScheme<JwtAuthenticationHandler.SchemeOptions, JwtSignInHandler>(IdentityConstants.ApplicationScheme, o => { })
+                    .AddScheme<AuthenticationSchemeOptions, JwtSignInHandler>(IdentityConstants.ApplicationScheme, o => { })
                     .AddCookie(IdentityConstants.ExternalScheme);
             });
         }
