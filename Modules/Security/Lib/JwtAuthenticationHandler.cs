@@ -39,7 +39,7 @@ namespace AuthEx.Security.Lib
             if (string.IsNullOrWhiteSpace(jwt))
                 return AuthenticateResult.NoResult();
 
-            var externalUrl = _cfg.GetValue<string>("ExternalUrl");
+            var externalUrl = _cfg.GetExternalUrl();
 
             try
             {

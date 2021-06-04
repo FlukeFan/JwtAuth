@@ -29,7 +29,7 @@ namespace AuthEx.Security.Areas.Identity
 
         public async Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties)
         {
-            var externalUrl = _cfg.GetValue<string>("ExternalUrl");
+            var externalUrl = _cfg.GetExternalUrl();
             var key = await RsaKey.FindOrCreateAsync(_db);
             var jwt = key.CreateSignedJwt(user, externalUrl);
             Response.Cookies.Append(JwtAuthenticationHandler.CookieName, jwt);
