@@ -1,4 +1,5 @@
 using System.IO;
+using AuthEx.Security.Lib;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
@@ -35,6 +36,8 @@ namespace AuthEx.Security
                     opt.FileProviders.Add(new PhysicalFileProvider(libFullPath));
                 });
             }
+
+            services.AddAuthExAuthentication();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

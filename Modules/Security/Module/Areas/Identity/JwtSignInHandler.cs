@@ -2,7 +2,6 @@
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using AuthEx.Security.Areas.Identity.Data;
-using AuthEx.Security.Lib;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -10,7 +9,7 @@ using Microsoft.Extensions.Options;
 
 namespace AuthEx.Security.Areas.Identity
 {
-    public class JwtSignInHandler : JwtAuthenticationHandler, IAuthenticationSignInHandler
+    public class JwtSignInHandler : AuthenticationHandler<AuthenticationSchemeOptions>, IAuthenticationSignInHandler
     {
         private IConfiguration _cfg;
         private AuthExSecurityContext _db;
@@ -21,7 +20,7 @@ namespace AuthEx.Security.Areas.Identity
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
-            ISystemClock clock) : base(cfg, options, logger, encoder, clock)
+            ISystemClock clock) : base(options, logger, encoder, clock)
         {
             _cfg = cfg;
             _db = db;
@@ -39,6 +38,11 @@ namespace AuthEx.Security.Areas.Identity
         {
             Response.Cookies.Delete("JwtCookie");
             return Task.CompletedTask;
+        }
+
+        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+        {
+            return Task.FromResult(AuthenticateResult.NoResult());
         }
     }
 }
