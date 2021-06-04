@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -81,7 +82,9 @@ namespace AuthEx.Security.Lib
 
         protected override Task HandleChallengeAsync(AuthenticationProperties properties)
         {
-            Context.Response.Redirect("/Security/Identity/Account/Login");
+            var redirectUri = OriginalPathBase + OriginalPath + Request.QueryString;
+            var loginUri = "/Security/Identity/Account/Login" + QueryString.Create("returnUrl", redirectUri);
+            Context.Response.Redirect(loginUri);
             return Task.CompletedTask;
         }
     }
