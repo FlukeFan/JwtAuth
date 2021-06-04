@@ -5,3 +5,4 @@ obj
 .build
 *.user
 logs
+auth_ex_security_db

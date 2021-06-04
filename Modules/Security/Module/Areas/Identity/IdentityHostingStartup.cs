@@ -1,4 +1,5 @@
 ﻿using AuthEx.Security.Areas.Identity.Data;
+using AuthEx.Shared;
 using FileContextCore;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Hosting;
@@ -15,7 +16,7 @@ namespace AuthEx.Security.Areas.Identity
             builder.ConfigureServices((context, services) => {
 
                 services.AddDbContext<AuthExSecurityContext>(options =>
-                    options.UseFileContextDatabase(location: "c:\\temp\\auth_ex_db"));
+                    options.UseFileContextDatabase(location: context.HostingEnvironment.AppFolder("auth_ex_security_db")));
 
                 services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddDefaultUI()
