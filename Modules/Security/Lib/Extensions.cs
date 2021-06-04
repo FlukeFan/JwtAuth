@@ -5,13 +5,11 @@ namespace AuthEx.Security.Lib
 {
     public static class Extensions
     {
-        public static IServiceCollection AddAuthExAuthentication(this IServiceCollection services)
+        public static AuthenticationBuilder AddAuthExAuthentication(this IServiceCollection services)
         {
-            services
+            return services
                 .AddAuthentication(JwtAuthenticationHandler.SchemeName)
                 .AddScheme<AuthenticationSchemeOptions, JwtAuthenticationHandler>(JwtAuthenticationHandler.SchemeName, o => { });
-
-            return services;
         }
     }
 }
