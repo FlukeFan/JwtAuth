@@ -16,6 +16,7 @@ namespace AuthEx.Security.Lib
     public class JwtAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         public const string SchemeName = "CustomJwtScheme";
+        public const string CookieName = "JwtCookie";
 
         private static RsaSecurityKey _publicKey;
 
@@ -33,7 +34,7 @@ namespace AuthEx.Security.Lib
 
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            var jwt = Request.Cookies["JwtCookie"];
+            var jwt = Request.Cookies[CookieName];
 
             if (string.IsNullOrWhiteSpace(jwt))
                 return AuthenticateResult.NoResult();
