@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AuthEx.Shared.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,18 +36,18 @@ namespace AuthEx.Security.Areas.Identity.Data
 
         private async Task CreateUsersAsync(IServiceProvider serviceProvider)
         {
-            var userManager = serviceProvider.GetRequiredService<UserManager<AuthExUser>>();
+            var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
             await CreateUserAsync(userManager, UserData.User.Username, UserData.User.Password);
             await CreateUserAsync(userManager, UserData.Admin.Username, UserData.Admin.Password);
         }
 
-        private async Task CreateUserAsync(UserManager<AuthExUser> userManager, string username, string password)
+        private async Task CreateUserAsync(UserManager<IdentityUser> userManager, string username, string password)
         {
             var user = await userManager.FindByNameAsync(username);
 
             if (user == null)
             {
-                user = new AuthExUser
+                user = new IdentityUser
                 {
                     UserName = username,
                     Email = username,

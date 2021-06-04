@@ -1,8 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using AuthEx.Shared.Security
 
-@inject SignInManager<AuthExUser> SignInManager
-@inject UserManager<AuthExUser> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
