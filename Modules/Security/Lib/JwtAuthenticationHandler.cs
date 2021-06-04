@@ -42,23 +42,9 @@ namespace AuthEx.Security.Lib
 
             try
             {
-                if (_publicKey == null)
-                {
-                    var keyUri = new Uri($"{externalUrl}/Security/PublicKey");
-
-                    using (var webClient = new WebClient())
-                    {
-                        var keyString = await webClient.DownloadStringTaskAsync(keyUri);
-                        var keyBytes = Convert.FromBase64String(keyString);
-                        var rsa = RSA.Create();
-                        rsa.ImportSubjectPublicKeyInfo(keyBytes, out _);
-                        _publicKey = new RsaSecurityKey(rsa);
-                    }
-                }
+                _publicKey = _publicKey ?? await DownloadPublicKeyAsync(externalUrl);
 
                 var tokenHandler = new JwtSecurityTokenHandler();
-
-                SecurityToken token;
 
                 var principal = tokenHandler.ValidateToken(jwt, new TokenValidationParameters
                 {
@@ -68,7 +54,7 @@ namespace AuthEx.Security.Lib
                     ValidIssuer = externalUrl,
                     ValidAudience = externalUrl,
                     IssuerSigningKey = _publicKey
-                }, out token);
+                }, out _);
 
                 var ticket = new AuthenticationTicket(principal, SchemeName);
                 return AuthenticateResult.Success(ticket);
@@ -86,6 +72,21 @@ namespace AuthEx.Security.Lib
             var loginUri = "/Security/Identity/Account/Login" + QueryString.Create("returnUrl", redirectUri);
             Context.Response.Redirect(loginUri);
             return Task.CompletedTask;
+        }
+
+        private static async Task<RsaSecurityKey> DownloadPublicKeyAsync(string externalUrl)
+        {
+            var keyUri = new Uri($"{externalUrl}/Security/PublicKey");
+
+            using (var webClient = new WebClient())
+            {
+                var keyString = await webClient.DownloadStringTaskAsync(keyUri);
+                var keyBytes = Convert.FromBase64String(keyString);
+                var rsa = RSA.Create();
+                rsa.ImportSubjectPublicKeyInfo(keyBytes, out _);
+                
+                return new RsaSecurityKey(rsa);
+            }
         }
     }
 }
