@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
@@ -21,6 +22,7 @@ namespace AuthEx.Security.Areas.Identity.Data
             using (var scope = _serviceProvider.CreateScope())
             {
                 await CreateKeyAsync(scope.ServiceProvider);
+                await CreateRolesAsync(scope.ServiceProvider, "users", "admins");
                 await CreateUsersAsync(scope.ServiceProvider);
             }
         }
@@ -34,14 +36,27 @@ namespace AuthEx.Security.Areas.Identity.Data
             await ctx.SaveChangesAsync();
         }
 
+        private async Task CreateRolesAsync(IServiceProvider serviceProvider, params string[] roles)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            var existingRoles = roleManager.Roles.AsQueryable().Select(r => r.Name).ToList();
+
+            foreach (var role in roles)
+                if (!existingRoles.Contains(role))
+                    await roleManager.CreateAsync(new IdentityRole
+                    {
+                        Name = role,
+                    });
+        }
+
         private async Task CreateUsersAsync(IServiceProvider serviceProvider)
         {
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            await CreateUserAsync(userManager, UserData.User.Username, UserData.User.Password);
-            await CreateUserAsync(userManager, UserData.Admin.Username, UserData.Admin.Password);
+            await CreateUserAsync(userManager, UserData.User.Username, UserData.User.Password, "users");
+            await CreateUserAsync(userManager, UserData.Admin.Username, UserData.Admin.Password, "users", "admins");
         }
 
-        private async Task CreateUserAsync(UserManager<IdentityUser> userManager, string username, string password)
+        private async Task CreateUserAsync(UserManager<IdentityUser> userManager, string username, string password, params string[] roles)
         {
             var user = await userManager.FindByNameAsync(username);
 
@@ -61,6 +76,15 @@ namespace AuthEx.Security.Areas.Identity.Data
                 user.EmailConfirmed = true;
                 await userManager.UpdateAsync(user);
             }
+
+            var desiredRoles = roles ?? new string[0];
+            var existingRoles = await userManager.GetRolesAsync(user);
+
+            foreach (var roleToAdd in desiredRoles.Where(r => !existingRoles.Contains(r)))
+                await userManager.AddToRoleAsync(user, roleToAdd);
+
+            foreach (var roleToRemove in existingRoles.Where(r => !desiredRoles.Contains(r)))
+                await userManager.RemoveFromRoleAsync(user, roleToRemove);
         }
     }
 }

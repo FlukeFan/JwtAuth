@@ -59,6 +59,9 @@ namespace AuthEx.Security.Areas.Identity
                 new Claim(ClaimTypes.Name, user.Identity.Name),
             });
 
+            foreach (var role in user.Claims.Where(c => c.Type == ClaimTypes.Role))
+                identity.AddClaim(new Claim(ClaimTypes.Role, role.Value));
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = identity,

@@ -20,6 +20,7 @@ namespace AuthEx.Security.Areas.Identity
 
                 services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                     .AddDefaultUI()
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<AuthExSecurityContext>();
 
                 services.AddHostedService<AuthExSecurityContextSetup>();

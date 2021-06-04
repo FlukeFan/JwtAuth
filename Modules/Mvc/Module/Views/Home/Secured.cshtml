@@ -1,4 +1,5 @@
-﻿@{
+﻿@using System.Security.Claims 
+@{
     this.SetAppLayout(
         title: "MVC - Secured",
         baseUrl: "/Mvc/");
@@ -9,4 +10,13 @@
 </p>
 <p>
     User = @User?.Identity.Name
+</p>
+<p>
+    Roles:
+    <ul>
+        @foreach (var claim in User?.Claims?.Where(c => c.Type == ClaimTypes.Role)?.Select(r => r.Value) ?? new string[0])
+        {
+            <li>@claim</li>
+        }
+    </ul>
 </p>
