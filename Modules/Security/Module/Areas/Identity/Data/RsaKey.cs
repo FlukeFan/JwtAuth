@@ -36,10 +36,17 @@ namespace AuthEx.Security.Areas.Identity.Data
             return key;
         }
 
+        public string EncodePublicKey()
+        {
+            var provider = CreateProvider();
+            var publicKey = provider.ExportSubjectPublicKeyInfo();
+            var encoded = Convert.ToBase64String(publicKey);
+            return encoded;
+        }
+
         public string CreateSignedJwt(ClaimsPrincipal user)
         {
-            var provider = RSA.Create();
-            provider.FromXmlString(Xml);
+            var provider = CreateProvider();
 
             var key = new RsaSecurityKey(provider);
             var issuer = "http://localhost:8124";
@@ -66,6 +73,13 @@ namespace AuthEx.Security.Areas.Identity.Data
 
             var jwt = tokenHandler.WriteToken(token);
             return jwt;
+        }
+
+        private RSA CreateProvider()
+        {
+            var provider = RSA.Create();
+            provider.FromXmlString(Xml);
+            return provider;
         }
     }
 }
