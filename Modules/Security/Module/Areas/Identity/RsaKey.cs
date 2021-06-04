@@ -5,9 +5,10 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using AuthEx.Security.Areas.Identity.Data;
 using Microsoft.IdentityModel.Tokens;
 
-namespace AuthEx.Security.Areas.Identity.Data
+namespace AuthEx.Security.Areas.Identity
 {
     public class RsaKey
     {
