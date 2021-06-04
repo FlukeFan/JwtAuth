@@ -26,7 +26,8 @@ namespace AuthEx.Security.Areas.Identity
 
                 services.AddAuthentication()
                     .AddScheme<AuthenticationSchemeOptions, JwtSignInHandler>(IdentityConstants.ApplicationScheme, o => { })
-                    .AddCookie(IdentityConstants.ExternalScheme);
+                    .AddCookie(IdentityConstants.ExternalScheme)
+                    .AddCookie(IdentityConstants.TwoFactorUserIdScheme);
             });
         }
     }

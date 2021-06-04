@@ -1,0 +1,17 @@
+﻿@page
+@{
+    this.SetPageTitle("Logging out");
+}
+
+<header>
+    <p>Logging out ...</p>
+</header>
+
+<form class="form-inline" asp-page="Logout" method="post">
+</form>
+
+@section Scripts {
+    <script>
+        $('form').submit();
+    </script>
+}

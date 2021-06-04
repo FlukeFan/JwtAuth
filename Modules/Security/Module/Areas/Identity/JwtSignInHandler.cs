@@ -37,7 +37,8 @@ namespace AuthEx.Security.Areas.Identity
 
         public Task SignOutAsync(AuthenticationProperties properties)
         {
-            throw new System.NotImplementedException();
+            Response.Cookies.Delete("JwtCookie");
+            return Task.CompletedTask;
         }
     }
 }
