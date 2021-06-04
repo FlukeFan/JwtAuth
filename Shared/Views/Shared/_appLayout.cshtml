@@ -50,7 +50,7 @@
                         @if (User?.Identity?.IsAuthenticated == true)
                         {
                             <li class="nav-item">
-                                <form class="form-inline" action="/Mvc/Home/LogOut" method="post">
+                                <form class="form-inline" action="/Security/Identity/Account/Logout" method="post">
                                     <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
                                 </form>
                             </li>
@@ -58,7 +58,7 @@
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="/Mvc/Home/LogIn">Login</a>
+                                <a class="nav-link text-dark" href="/Security/Identity/Account/Login">Login</a>
                             </li>
                         }
                     </ul>
