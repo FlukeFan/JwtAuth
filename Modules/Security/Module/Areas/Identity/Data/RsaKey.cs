@@ -55,7 +55,7 @@ namespace AuthEx.Security.Areas.Identity.Data
             var identity = new ClaimsIdentity(new[]
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.FindFirst(ClaimTypes.NameIdentifier).Value),
-                new Claim(JwtRegisteredClaimNames.NameId, user.Identity.Name),
+                new Claim(ClaimTypes.Name, user.Identity.Name),
             });
 
             var tokenDescriptor = new SecurityTokenDescriptor
