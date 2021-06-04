@@ -13,5 +13,11 @@
             public const string Username = "admin@test.com";
             public const string Password = "admin_Pa550rd";
         }
+
+        public static class Roles
+        {
+            public const string Users = "users";
+            public const string Admins = "admins";
+        }
     }
 }

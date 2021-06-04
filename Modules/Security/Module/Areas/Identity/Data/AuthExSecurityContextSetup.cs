@@ -22,7 +22,7 @@ namespace AuthEx.Security.Areas.Identity.Data
             using (var scope = _serviceProvider.CreateScope())
             {
                 await CreateKeyAsync(scope.ServiceProvider);
-                await CreateRolesAsync(scope.ServiceProvider, "users", "admins");
+                await CreateRolesAsync(scope.ServiceProvider, UserData.Roles.Users, UserData.Roles.Admins);
                 await CreateUsersAsync(scope.ServiceProvider);
             }
         }
@@ -52,8 +52,8 @@ namespace AuthEx.Security.Areas.Identity.Data
         private async Task CreateUsersAsync(IServiceProvider serviceProvider)
         {
             var userManager = serviceProvider.GetRequiredService<UserManager<IdentityUser>>();
-            await CreateUserAsync(userManager, UserData.User.Username, UserData.User.Password, "users");
-            await CreateUserAsync(userManager, UserData.Admin.Username, UserData.Admin.Password, "users", "admins");
+            await CreateUserAsync(userManager, UserData.User.Username, UserData.User.Password, UserData.Roles.Users);
+            await CreateUserAsync(userManager, UserData.Admin.Username, UserData.Admin.Password, UserData.Roles.Users, UserData.Roles.Admins);
         }
 
         private async Task CreateUserAsync(UserManager<IdentityUser> userManager, string username, string password, params string[] roles)
