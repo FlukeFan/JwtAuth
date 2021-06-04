@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using AuthEx.Security.Areas.Identity.Data;
 using AuthEx.Security.Lib;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Logging;
@@ -10,14 +11,23 @@ namespace AuthEx.Security.Areas.Identity
 {
     public class JwtSignInHandler : JwtAuthenticationHandler, IAuthenticationSignInHandler
     {
-        public JwtSignInHandler(IOptionsMonitor<SchemeOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(options, logger, encoder, clock)
+        private AuthExSecurityContext _db;
+
+        public JwtSignInHandler(
+            AuthExSecurityContext db,
+            IOptionsMonitor<SchemeOptions> options,
+            ILoggerFactory logger,
+            UrlEncoder encoder,
+            ISystemClock clock) : base(options, logger, encoder, clock)
         {
+            _db = db;
         }
 
-        public Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties)
+        public async Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties properties)
         {
-            Response.Cookies.Append("JwtCookie", "jwt-goes-here");
-            return Task.CompletedTask;
+            var key = await RsaKey.FindOrCreateAsync(_db);
+            var jwt = key.CreateSignedJwt(user);
+            Response.Cookies.Append("JwtCookie", jwt);
         }
 
         public Task SignOutAsync(AuthenticationProperties properties)
