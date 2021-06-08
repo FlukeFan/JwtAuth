@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AuthEx.Security.Areas.Identity.Data;
 using AuthEx.Security.Lib;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -32,7 +33,12 @@ namespace AuthEx.Security.Areas.Identity
             var externalUrl = _cfg.GetExternalUrl();
             var key = await RsaKey.FindOrCreateAsync(_db);
             var jwt = key.CreateSignedJwt(user, externalUrl);
-            Response.Cookies.Append(JwtAuthenticationHandler.CookieName, jwt);
+
+            Response.Cookies.Append(JwtAuthenticationHandler.CookieName, jwt, new CookieOptions
+            {
+                Path = "/",
+                SameSite = SameSiteMode.Strict,
+            });
         }
 
         public Task SignOutAsync(AuthenticationProperties properties)
