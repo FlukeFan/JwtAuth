@@ -7,8 +7,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{2AA7C477
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		appveyor.yml = appveyor.yml
+		build.proj = build.proj
 		CommandPrompt.bat = CommandPrompt.bat
 		global.json = global.json
+		readme.md = readme.md
+		setup_iis.ps1 = setup_iis.ps1
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthEx.Home", "Home\AuthEx.Home.csproj", "{2C6E063A-C471-4EC4-9FBF-67286FA43A0E}"
