@@ -2,7 +2,7 @@
 @model LoginModel
 
 @{
-     this.SetPageTitle("Log in");
+    this.SetPageTitle("Log in");
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -34,7 +34,8 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary">Log in</button>
                 </div>
-                <div class="form-group">
+                <!-- hide this, not implemented for demo -->
+                <div class="form-group" style="display:none">
                     <p>
                         <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                     </p>
@@ -45,7 +46,9 @@
             </form>
         </section>
     </div>
-    <div class="col-md-6 col-md-offset-2">
+    <!-- hide the external logins, and replace with an auto log-in button -->
+    <partial name="AutoLogin" />
+    <div class="col-md-6 col-md-offset-2" style="display:none">
         <section>
             <h4>Use another service to log in.</h4>
             <hr />

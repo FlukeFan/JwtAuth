@@ -1,0 +1,34 @@
+﻿@using AuthEx.Security.Areas.Identity.Data
+<div class="col-md-6 col-md-offset-2">
+    <section>
+        <h4>Accounts.</h4>
+        <hr />
+        <div>
+            <p>
+                This demo site has two accounts created automatically:
+                <ul>
+                    <li style="padding-bottom: 20px;">
+                        user:@UserData.User.Username
+                        <br />
+                        password:@UserData.User.Password
+                        <br />
+                        <button onclick="setup('@UserData.User.Username', '@UserData.User.Password')" class="btn btn-success">Setup User Login</button>
+                    </li>
+                    <li>
+                        user:@UserData.Admin.Username
+                        <br />
+                        password:@UserData.Admin.Password
+                        <br />
+                        <button onclick="setup('@UserData.Admin.Username', '@UserData.Admin.Password')" class="btn btn-success">Setup Admin Login</button>
+                    </li>
+                </ul>
+            </p>
+        </div>
+    </section>
+    <script type="text/javascript">
+        function setup(username, password) {
+            document.getElementById('Input_Email').value = username;
+            document.getElementById('Input_Password').value = password;
+        }
+    </script>
+</div>

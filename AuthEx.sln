@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Root", "_Root", "{2AA7C477
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.gitignore = .gitignore
+		CommandPrompt.bat = CommandPrompt.bat
 		global.json = global.json
 	EndProjectSection
 EndProject
