@@ -1,7 +1,12 @@
-﻿@{
+﻿@using System.Net
+@using AuthEx.Security.Lib
+@{
     this.SetAppLayout(
         title: "Security",
         baseUrl: "/Security/");
+
+    var jwt = Context.Request.Cookies[JwtAuthenticationHandler.CookieName];
+    var publicKeyUrl = "/Security/PublicKey?delimit=true";
 }
 
 <p>
@@ -9,5 +14,33 @@
     signs a JWT and stores that in a cookie instead.
 </p>
 <p>
-    The JWT is signed using RS256, and the public key is <a href="/Security/PublicKey?delimit=true">exposed</a> to other modules so they can verify the signature of the cookie.
+    The JWT is signed using RS256, and the public key is <a id="publicKey" href="@publicKeyUrl">exposed</a> to other modules so they can verify the signature of the cookie.
 </p>
+@if (string.IsNullOrWhiteSpace(jwt))
+{
+    <p>
+        No JWT found in cookies.
+    </p>
+}
+else
+{
+    <p>
+        Current JWT is:  @jwt
+    </p>
+    <p>
+        <button onclick="openJwt()" class="btn btn-primary">Open in JWT.IO</button>
+    </p>
+    <script>
+        function openJwt() {
+            var jwt = '@jwt';
+            var publicKeyUrl = $('#publicKey').attr('href');
+
+            $.ajax({
+                url: publicKeyUrl,
+                success: function (publicKey) {
+                    window.open('https://jwt.io/#debugger-io?token=' + jwt + '&publicKey=' + encodeURIComponent(publicKey));
+                }
+            });
+        }
+    </script>
+}
