@@ -1,0 +1,8 @@
+image: Visual Studio 2019
+
+build_script:
+  - dotnet --info
+  - dotnet --version
+  - dotnet msbuild build.proj /t:Deploy
+
+test: off

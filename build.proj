@@ -1,0 +1,53 @@
+<Project DefaultTargets="Package" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <PackageFolder>Home/bin/packages</PackageFolder>
+    <EchoOff Condition="'$(EchoOff)'==''">True</EchoOff>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FtpFileLines Include="cd $(JwtAuthFtpRemoteDir)" />
+    <FtpFileLines Include="rm setup_iis.ps1" />
+    <FtpFileLines Include="put setup_iis.ps1 setup_iis.ps1" />
+
+    <FtpFileLines Include="mkdir home" />
+    <FtpFileLines Include="rm home/publish.tmp" />
+    <FtpFileLines Include="put $(PackageFolder)/home.publish.zip home/publish.tmp" />
+    <FtpFileLines Include="rm home/publish.zip" />
+    <FtpFileLines Include="mv home/publish.tmp home/publish.zip" />
+
+    <FtpFileLines Include="mkdir mvc" />
+    <FtpFileLines Include="rm mvc/publish.tmp" />
+    <FtpFileLines Include="put $(PackageFolder)/mvc.publish.zip mvc/publish.tmp" />
+    <FtpFileLines Include="rm mvc/publish.zip" />
+    <FtpFileLines Include="mv mvc/publish.tmp mvc/publish.zip" />
+
+    <FtpFileLines Include="mkdir security" />
+    <FtpFileLines Include="rm security/publish.tmp" />
+    <FtpFileLines Include="put $(PackageFolder)/security.publish.zip security/publish.tmp" />
+    <FtpFileLines Include="rm security/publish.zip" />
+    <FtpFileLines Include="mv security/publish.tmp security/publish.zip" />
+  </ItemGroup>
+
+  <Target Name="Package">
+    <RemoveDir Directories="$(PackageFolder)" />
+    <MakeDir Directories="$(PackageFolder)" />
+    <Exec WorkingDirectory="Home" Command="dotnet publish -c Release -r win-x64 --self-contained" />
+    <ZipDirectory DestinationFile="$(PackageFolder)/home.publish.zip" SourceDirectory="Home/bin/Release/netcoreapp3.1/win-x64/publish" />
+    <Exec WorkingDirectory="Modules/Mvc/Module" Command="dotnet publish -c Release -r win-x64 --self-contained" />
+    <ZipDirectory DestinationFile="$(PackageFolder)/mvc.publish.zip" SourceDirectory="Modules/Mvc/Module/bin/Release/netcoreapp3.1/win-x64/publish" />
+    <Exec WorkingDirectory="Modules/Security/Module" Command="dotnet publish -c Release -r win-x64 --self-contained" />
+    <ZipDirectory DestinationFile="$(PackageFolder)/security.publish.zip" SourceDirectory="Modules/Security/Module/bin/Release/netcoreapp3.1/win-x64/publish" />
+  </Target>
+
+  <Target Name="Deploy" DependsOnTargets="Package">
+    <Error Text="Need to set MfePocFtpHost variable" Condition="'$(MfePocFtpHost)'==''" />
+    <Error Text="Need to set MfePocFtpUser variable" Condition="'$(MfePocFtpUser)'==''" />
+    <Error Text="Need to set MfePocFtpPassword variable" Condition="'$(MfePocFtpPassword)'==''" />
+    <Error Text="Need to set MfePocFtpRemoteDir variable" Condition="'$(MfePocFtpRemoteDir)'==''" />
+    <WriteLinesToFile File="$(TEMP)/MfePocFtpBatch.txt" Lines="@(FtpFileLines)" Overwrite="true" />
+    <Exec EchoOff="$(EchoOff)" Command="Tools\PuTTY\psftp.exe -pw $(MfePocFtpPassword) -b $(TEMP)/MfePocFtpBatch.txt $(MfePocFtpUser)@$(MfePocFtpHost) -be &lt;Tools\PuTTY\input.txt &gt; NUL 2&gt;&amp;1" />
+    <Message Text="Completed SFTP of packages" Importance="high" />
+  </Target>
+
+</Project>
