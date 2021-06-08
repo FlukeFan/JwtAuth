@@ -41,12 +41,12 @@
   </Target>
 
   <Target Name="Deploy" DependsOnTargets="Package">
-    <Error Text="Need to set MfePocFtpHost variable" Condition="'$(MfePocFtpHost)'==''" />
-    <Error Text="Need to set MfePocFtpUser variable" Condition="'$(MfePocFtpUser)'==''" />
-    <Error Text="Need to set MfePocFtpPassword variable" Condition="'$(MfePocFtpPassword)'==''" />
-    <Error Text="Need to set MfePocFtpRemoteDir variable" Condition="'$(MfePocFtpRemoteDir)'==''" />
-    <WriteLinesToFile File="$(TEMP)/MfePocFtpBatch.txt" Lines="@(FtpFileLines)" Overwrite="true" />
-    <Exec EchoOff="$(EchoOff)" Command="Tools\PuTTY\psftp.exe -pw $(MfePocFtpPassword) -b $(TEMP)/MfePocFtpBatch.txt $(MfePocFtpUser)@$(MfePocFtpHost) -be &lt;Tools\PuTTY\input.txt &gt; NUL 2&gt;&amp;1" />
+    <Error Text="Need to set JwtAuthFtpHost variable" Condition="'$(JwtAuthFtpHost)'==''" />
+    <Error Text="Need to set JwtAuthFtpUser variable" Condition="'$(JwtAuthFtpUser)'==''" />
+    <Error Text="Need to set JwtAuthFtpPassword variable" Condition="'$(JwtAuthFtpPassword)'==''" />
+    <Error Text="Need to set JwtAuthFtpRemoteDir variable" Condition="'$(JwtAuthFtpRemoteDir)'==''" />
+    <WriteLinesToFile File="$(TEMP)/JwtAuthFtpBatch.txt" Lines="@(FtpFileLines)" Overwrite="true" />
+    <Exec EchoOff="$(EchoOff)" Command="Tools\PuTTY\psftp.exe -pw $(JwtAuthFtpPassword) -b $(TEMP)/JwtAuthFtpBatch.txt $(JwtAuthFtpUser)@$(JwtAuthFtpHost) -be &lt;Tools\PuTTY\input.txt &gt; NUL 2&gt;&amp;1" />
     <Message Text="Completed SFTP of packages" Importance="high" />
   </Target>
 
