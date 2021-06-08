@@ -37,7 +37,7 @@ namespace AuthEx.Security.Areas.Identity
             Response.Cookies.Append(JwtAuthenticationHandler.CookieName, jwt, new CookieOptions
             {
                 Path = "/",
-                SameSite = SameSiteMode.Strict,
+                SameSite = SameSiteMode.Lax,
             });
         }
 
