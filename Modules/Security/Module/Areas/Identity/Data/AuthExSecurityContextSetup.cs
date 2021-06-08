@@ -71,6 +71,12 @@ namespace AuthEx.Security.Areas.Identity.Data
                 await userManager.CreateAsync(user, password);
             }
 
+            if (!await userManager.CheckPasswordAsync(user, password))
+            {
+                var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                await userManager.ResetPasswordAsync(user, token, password);
+            }
+
             if (user.EmailConfirmed != true)
             {
                 user.EmailConfirmed = true;
