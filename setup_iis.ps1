@@ -71,5 +71,5 @@ Unzip "mvc"
 
 Reset-IISServerManager -Confirm:$False
 SetupSite $siteName "$((Get-Location).Path)\home"
-SetupApp $siteName "Generation" "$((Get-Location).Path)\security"
-SetupApp $siteName "Mixing" "$((Get-Location).Path)\mvc"
+SetupApp $siteName "Security" "$((Get-Location).Path)\security"
+SetupApp $siteName "Mvc" "$((Get-Location).Path)\mvc"
