@@ -4,6 +4,8 @@ JWT Authentication Example
 
 An example of cross-process authentication using a JWT in a cookie.
 
+[Associated article](https://rgbco.uk/articles/jwtauth)
+
 [Running demo](https://jwtauth.rgbco.uk/)
 
 [![Build Status](https://ci.appveyor.com/api/projects/status/github/FlukeFan/jwtauth?svg=true)](https://ci.appveyor.com/project/FlukeFan/jwtauth)
